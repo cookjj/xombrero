@@ -2249,6 +2249,7 @@ navaction(struct tab *t, struct karg *args)
 {
 	WebKitWebHistoryItem	*item = NULL;
 	WebKitWebFrame		*frame;
+	const gchar		*uri;
 
 	DNPRINTF(XT_D_NAV, "navaction: tab %d opcode %d\n",
 	    t->tab_id, args->i);
@@ -2286,6 +2287,12 @@ navaction(struct tab *t, struct karg *args)
 		go_forward_for_real(t);
 		break;
 	case XT_NAV_RELOAD:
+		uri = get_uri(t);
+		if (uri == NULL || g_str_has_prefix(uri, "about:") ||
+				g_str_has_prefix(uri, "xxxt://")) {
+			load_uri(t, gtk_entry_get_text(GTK_ENTRY(t->uri_entry)));
+			break;
+		}
 		frame = webkit_web_view_get_main_frame(t->wv);
 		webkit_web_frame_reload(frame);
 		break;
