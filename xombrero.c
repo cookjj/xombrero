@@ -2255,7 +2255,7 @@ navaction(struct tab *t, struct karg *args)
 	    t->tab_id, args->i);
 
 	hide_oops(t);
-	set_normal_tab_meaning(t);
+//	set_normal_tab_meaning(t);
 	if (t->item) {
 		if (args->i == XT_NAV_BACK)
 			item = webkit_web_back_forward_list_get_current_item(t->bfl);
@@ -2290,7 +2290,7 @@ navaction(struct tab *t, struct karg *args)
 		uri = get_uri(t);
 		if (uri == NULL || g_str_has_prefix(uri, "about:") ||
 				g_str_has_prefix(uri, "xxxt://")) {
-			load_uri(t, gtk_entry_get_text(GTK_ENTRY(t->uri_entry)));
+			load_uri(t, uri);
 			break;
 		}
 		frame = webkit_web_view_get_main_frame(t->wv);
